@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150416062846) do
+ActiveRecord::Schema.define(version: 20150416092261) do
 
   create_table "entries", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -27,25 +27,25 @@ ActiveRecord::Schema.define(version: 20150416062846) do
 
   create_table "proxies", force: :cascade do |t|
     t.string   "proxy",       limit: 255
-    t.boolean  "banned",      limit: 1
+    t.boolean  "banned",      limit: 1,   default: false
     t.datetime "banned_time"
-    t.string   "proxy_type",  limit: 255
-    t.float    "succ_ratio",  limit: 24
-    t.integer  "succ",        limit: 4
-    t.integer  "total",       limit: 4
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.string   "proxy_type",  limit: 255, default: "http"
+    t.float    "succ_ratio",  limit: 24,  default: 0.0
+    t.integer  "succ",        limit: 4,   default: 0
+    t.integer  "total",       limit: 4,   default: 0
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
   end
 
   create_table "proxy_domains", force: :cascade do |t|
     t.string   "proxy",      limit: 255
     t.string   "domain",     limit: 255
-    t.string   "proxy_type", limit: 255
-    t.float    "succ_ratio", limit: 24
-    t.integer  "succ",       limit: 4
-    t.integer  "total",      limit: 4
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "proxy_type", limit: 255, default: "http"
+    t.float    "succ_ratio", limit: 24,  default: 0.0
+    t.integer  "succ",       limit: 4,   default: 0
+    t.integer  "total",      limit: 4,   default: 0
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
 end
