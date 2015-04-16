@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  proxy: MyString
+  banned: false
+  banned_time: 2015-04-16 14:28:46
+  proxy_type: MyString
+  succ_ratio: 1.5
+  succ: 1
+  total: 1
+
+two:
+  proxy: MyString
+  banned: false
+  banned_time: 2015-04-16 14:28:46
+  proxy_type: MyString
+  succ_ratio: 1.5
+  succ: 1
+  total: 1

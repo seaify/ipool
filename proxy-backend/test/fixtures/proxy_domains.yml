@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  proxy: MyString
+  domain: MyString
+  proxy_type: MyString
+  succ_ratio: 1.5
+  succ: 1
+  total: 1
+
+two:
+  proxy: MyString
+  domain: MyString
+  proxy_type: MyString
+  succ_ratio: 1.5
+  succ: 1
+  total: 1

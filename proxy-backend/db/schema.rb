@@ -11,18 +11,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150414090857) do
+ActiveRecord::Schema.define(version: 20150416062846) do
 
   create_table "entries", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "people", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "proxies", force: :cascade do |t|
+    t.string   "proxy",       limit: 255
+    t.boolean  "banned",      limit: 1
+    t.datetime "banned_time"
+    t.string   "proxy_type",  limit: 255
+    t.float    "succ_ratio",  limit: 24
+    t.integer  "succ",        limit: 4
+    t.integer  "total",       limit: 4
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  create_table "proxy_domains", force: :cascade do |t|
+    t.string   "proxy",      limit: 255
+    t.string   "domain",     limit: 255
+    t.string   "proxy_type", limit: 255
+    t.float    "succ_ratio", limit: 24
+    t.integer  "succ",       limit: 4
+    t.integer  "total",      limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
 end
