@@ -1,0 +1,4 @@
+*.log
+.sass-cache
+.idea
+.keep
