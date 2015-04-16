@@ -1,10 +1,15 @@
 Rails.application.routes.draw do
+  get 'proxy_domain/index'
+
   resources :people
 
   get 'entries/sign_in'
   post 'entries/sign_in'
 
-  get 'proxy/list'
+  get 'proxys' => 'proxy#proxys'
+  post 'add_proxy' => 'proxy#add_proxy'
+  get 'testme' => 'proxy#testme'
+  get 'proxy_domains' => 'proxy_domain#proxy_domains'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
