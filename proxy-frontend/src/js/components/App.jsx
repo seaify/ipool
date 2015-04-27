@@ -2,6 +2,7 @@ const React = require('react');
 const TodoStore = require('../stores/TodoStore');
 const ActionCreator = require('../actions/TodoActionCreators');
 const TaskList = require('./TaskList.jsx');
+const mui = require('material-ui');
 const reactbootstrap = require('react-bootstrap');
 const Reactable = require('./reactable.jsx');
 const request = require('request');
@@ -162,18 +163,18 @@ let App = React.createClass({
           <DropdownButton eventKey={3} title='导入代理'>
             <MenuItem eventKey='1'>
               <ModalTrigger modal={<FileInputModal />}>
-                <Button>导入代理文件</Button>                
+                <Button>导入代理文件</Button>
               </ModalTrigger>
             </MenuItem>
             <MenuItem eventKey='2'>
               <ModalTrigger modal={<UrlInputModal />}>
-                <Button>导入代理url</Button>                
+                <Button>导入代理url</Button>
               </ModalTrigger>
             </MenuItem>
           </DropdownButton>
           <NavItem>
             <ModalTrigger modal={<LoginModal />}>
-                <Button>登录</Button>                
+                <Button>登录</Button>
               </ModalTrigger>
           </NavItem>
         </Nav>

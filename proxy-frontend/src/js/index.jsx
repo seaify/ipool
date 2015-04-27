@@ -1,8 +1,5 @@
 const React = require('react/addons');
-const Reactable = require('./components/reactable.jsx');
 const App = require('./components/App.jsx');
-
-var Table = Reactable.Table;
 
 
 var data = [
