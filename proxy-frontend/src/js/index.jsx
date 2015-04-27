@@ -1,5 +1,5 @@
 const React = require('react/addons');
-const Reactable = require('reactable');
+const Reactable = require('./components/reactable.jsx');
 const App = require('./components/App.jsx');
 
 var Table = Reactable.Table;
@@ -10,9 +10,6 @@ var data = [
   {Name: "love2", age: 18},
   {Name: "love3", age: 34}
 ];
-
-var QRCode = require('qrcode.react');
-var Video = require('react-video');
 
 
 React.render(

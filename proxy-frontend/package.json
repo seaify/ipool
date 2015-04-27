@@ -37,13 +37,17 @@
   "dependencies": {
     "deepcopy": "^0.5.0",
     "flux": "^2.0.1",
+    "jquery": "^2.1.3",
+    "lodash": "^3.7.0",
     "material-ui": "^0.7.3",
     "material-ui-sass": "^0.7.2",
     "object-assign": "^2.0.0",
     "react": "^0.13.1",
+    "react-bootstrap": "^0.21.0",
     "react-tagsinput": "^0.3.2",
     "react-tap-event-plugin": "^0.1.6",
     "react-video": "^1.5.3",
+    "request": "^2.55.0",
     "underscore": "^1.8.3"
   }
 }
