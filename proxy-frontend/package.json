@@ -41,7 +41,6 @@
     "material-ui-sass": "^0.7.2",
     "object-assign": "^2.0.0",
     "react": "^0.13.1",
-    "react-table-select": "file:react-table-select",
     "react-tagsinput": "^0.3.2",
     "react-tap-event-plugin": "^0.1.6",
     "react-video": "^1.5.3",

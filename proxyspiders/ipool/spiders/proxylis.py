@@ -62,7 +62,7 @@ class ProxylisSpider(scrapy.Spider):
             headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
             data = {"method": method, "ip": ip, "port": port}
             print data
-            r = requests.post('http://127.0.0.1:5000/add_proxy', data=json.dumps(data), headers=headers)
+            r = requests.post('http://127.0.0.1:3000/add_proxy', data=json.dumps(data), headers=headers)
             print r.text
 		
         pass

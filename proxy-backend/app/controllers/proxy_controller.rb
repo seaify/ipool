@@ -7,9 +7,9 @@ class ProxyController < ApplicationController
   	end
 
   	def add_proxy
-  		if params["method"] != "http"
-    		return render :json => {"code" => -1, "msg" => "only need http proxy"}# don't do msg.to_json
-    	end
+  		if params["method"].downcase != "http"
+    		    return render :json => {"code" => -1, "msg" => "only need http proxy"}# don't do msg.to_json
+    	        end
   		proxy_url = "%s://%s:%s" % [params["method"], params["ip"], params["port"]]
   		domains = (ProxyDomain.all.pluck(:domain) + ['zillow.com']).uniq
   		p domains
