@@ -1,5 +1,6 @@
 *.log
 .sass-cache
+*.pyc
 .idea
 .keep
 flask-backend-api/
