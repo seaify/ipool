@@ -1,7 +1,7 @@
 class ProxyController < ApplicationController
 	def proxys
   		@proxys = Proxy.all 
-    		return render :json => {:data => @proxys, :callback => params[:callback] }
+    		return render :json => {:data => @proxys}, :callback => params[:callback]
   	end
 
 	def proxy_domains
@@ -11,6 +11,7 @@ class ProxyController < ApplicationController
 
 
   	def add_proxy
+                params["method"] = params["method"].downcase
   		if params["method"].downcase != "http"
     		    return render :json => {"code" => -1, "msg" => "only need http proxy"}# don't do msg.to_json
     	        end
