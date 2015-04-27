@@ -1,10 +1,14 @@
 class ProxyController < ApplicationController
 	def proxys
   		@proxys = Proxy.all 
-  		respond_to do |format|
-    		format.json { render :json => @proxys }
-    	end
+    		return render :json => {:data => @proxys, :callback => params[:callback] }
   	end
+
+	def proxy_domains
+  		@proxys = ProxyDomain.all 
+    		return render :json => {:data => @proxys, :callback => params[:callback] }
+  	end
+
 
   	def add_proxy
   		if params["method"].downcase != "http"

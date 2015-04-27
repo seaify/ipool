@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get 'proxys' => 'proxy#proxys'
   post 'add_proxy' => 'proxy#add_proxy'
   get 'testme' => 'proxy#testme'
-  get 'proxy_domains' => 'proxy_domain#proxy_domains'
+  get 'proxy_domains' => 'proxy#proxy_domains'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
