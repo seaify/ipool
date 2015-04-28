@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   get 'proxys' => 'proxy#proxys'
   post 'add_proxy' => 'proxy#add_proxy'
+  post 'fetch_data' => 'proxy#fetch_data'
   get 'testme' => 'proxy#testme'
   get 'proxy_domains' => 'proxy#proxy_domains'
 
