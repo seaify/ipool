@@ -15,7 +15,7 @@ class ProxyController < ApplicationController
   def get_host_port(url)
     puts url
     #url = "http://baidu.com:80/"
-    url = "http://1.2.2.4:80/"
+    #url = "http://1.2.2.4:80/"
     uri = URI(url)
     puts uri
     return [uri.host, uri.port]
@@ -23,13 +23,29 @@ class ProxyController < ApplicationController
 
 	def fetch_data
     params[:url] = "https://github.com/seaify"
-    proxy = $redis.zrevrange(get_domain(params[:url]), 0, 1)
+    proxys = $redis.zrevrange(get_domain(params[:url]), 0, 1)
+    puts "hello"
+    puts(proxys)
+    puts "end"
+    proxy = proxys[0]
+    puts(proxy.class)
     puts(proxy)
     host, port = get_host_port(proxy)
     r = HTTP.via(host, port).get(params[:url])
     proxy_domain = proxy + '@' + host
     $redis.hincrby(proxy_domain, 'total', 1)
+    if !$proxy_dict.has_key?(proxy_domain)
+        $proxy_dict[proxy_domain] = {'total' => 0, 'succ' => 0}
+        $proxy_dict[proxy_domain]['total'] = 0
+        $proxy_dict[proxy_domain]['succ'] = 0
+    end
+    $proxy_dict[proxy_domain] = {'total' => 0, 'succ' => 0}
+    puts $proxy_dict[proxy_domain]
+    puts $proxy_dict[proxy_domain]['total']
+
     $proxy_dict[proxy_domain]['total'] += 1
+    #$proxy_dict.proxy_domain.total += 1
+    puts r.to_s
     if r.code == 200
 
       $redis.hincrby(proxy_domain, 'succ', 1)
@@ -50,13 +66,13 @@ class ProxyController < ApplicationController
 
 
 	def add_proxy
-    params = {"method" => "http", "ip" => "1.2.2.3", "port" => 80}
+    #params = {"method" => "http", "ip" => "1.2.2.3", "port" => 80}
     puts params
 		params["method"] = params["method"].downcase
 		if params["method"].downcase != "http"
 			return render :json => {"code" => -1, "msg" => "only need http proxy"}# don't do msg.to_json
 		end
-		proxy_url = "%s://%s:%s" % [params["method"], params["ip"], params["port"]]
+		proxy_url = "%s://%s:%s/" % [params["method"], params["ip"], params["port"]]
 		domains = (ProxyDomain.all.pluck(:domain) + ['zillow.com']).uniq
 		p domains
 		p domains.class
