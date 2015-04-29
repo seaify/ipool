@@ -104,7 +104,7 @@ let App = React.createClass({
     //self.setState({'proxies': proxies});
     //self.setState({'proxies_domain': proxies_domain});
     jquery.ajax({
-      url: "http://proxy.backend.seaify.com/proxys.json",
+      url: "http://127.0.0.1:3000/proxys.json",
       dataType: "jsonp",
       success: function(data){
         console.log("proxys.json succ");
@@ -119,7 +119,7 @@ let App = React.createClass({
       }});
 
     jquery.ajax({
-      url: "http://proxy.backend.seaify.com/proxy_domains.json",
+      url: "http://127.0.0.1:3000/proxy_domains.json",
       dataType: "jsonp",
       success: function(data){
         console.log(self);
