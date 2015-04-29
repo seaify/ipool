@@ -42,6 +42,7 @@ class ProxyController < ApplicationController
     $proxy_dict[proxy_domain] = {'total' => 0, 'succ' => 0}
     puts $proxy_dict[proxy_domain]
     puts $proxy_dict[proxy_domain]['total']
+    Rails.logger.debug("This message is Green".green)
 
     $proxy_dict[proxy_domain]['total'] += 1
     #$proxy_dict.proxy_domain.total += 1
