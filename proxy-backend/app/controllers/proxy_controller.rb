@@ -1,5 +1,6 @@
-require "http"
+require 'http'
 require 'uri'
+require 'monadic'
 
 class ProxyController < ApplicationController
 	def proxys
@@ -31,7 +32,13 @@ class ProxyController < ApplicationController
     puts(proxy.class)
     puts(proxy)
     host, port = get_host_port(proxy)
-    r = HTTP.via(host, port).get(params[:url])
+    puts(host)
+    puts(port)
+    begin
+      r = Maybe(HTTP).via(host, port).get(params[:url])
+    rescue
+      return render :json => {"code" => -1, "msg" => "error", "body" => "proxy failed"}# don't do msg.to_json
+    end
     proxy_domain = proxy + '@' + host
     $redis.hincrby(proxy_domain, 'total', 1)
     if !$proxy_dict.has_key?(proxy_domain)
