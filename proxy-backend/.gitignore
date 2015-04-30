@@ -15,5 +15,6 @@
 /log/*
 !/log/.keep
 /tmp
+Gemfile.lock
 
 .pyc
