@@ -29,7 +29,8 @@ class ProxyController < ApplicationController
 
     def fetch_data
         params[:url] = "https://github.com/seaify"
-        proxys = $redis.zrevrange(get_domain(params[:url]), 0, 1)
+        domain = get_domain(params[:url])
+        proxys = $redis.zrevrange(domain, 0, 0)
         puts "hello"
         puts(proxys)
         puts "end"
@@ -42,10 +43,31 @@ class ProxyController < ApplicationController
         proxy_domain = proxy + '@' + host
         $redis.hincrby(proxy_domain, 'total', 1)
         begin
-            r = Maybe(HTTP).via(host, port).get(params[:url])
-        rescue
+            r = (HTTP).via(host, port).get(params[:url])
+            puts "fuck u"
+            puts r
+            puts r.to_s
+            puts r.body
+        rescue Errno::ECONNRESET
+            #set banned, set negative score
+            $redis.hmset(proxy_domain, 'banned', 1)
+            $redis.hincrby(proxy_domain, 'total', 1)
+            $redis.zadd(domain, -100, proxy)
+            $redis.hmset(proxy_domain, 'banned_time', Time.now.to_i)
+            #
+            return render :json => {"code" => -1, "msg" => "error", "body" => "proxy failed"} # don't do msg.to_json
+        rescue Exception => ex
+            puts "An error of type #{ex.class} happened, message is #{ex.message}"
+            puts proxy_domain
+            $redis.hmset(proxy_domain, 'banned', 1)
+            $redis.hincrby(proxy_domain, 'total', 1)
+            $redis.zadd(domain, -1.0, proxy)
+            $redis.hmset(proxy_domain, 'banned_time', Time.now.to_i)
             return render :json => {"code" => -1, "msg" => "error", "body" => "proxy failed"} # don't do msg.to_json
         end
+        puts r
+        puts r.body
+        puts "what happend"
 
 
         if !$proxy_dict.has_key?(proxy_domain)
@@ -56,11 +78,10 @@ class ProxyController < ApplicationController
         $proxy_dict[proxy_domain] = {'total' => 0, 'succ' => 0}
         puts $proxy_dict[proxy_domain]
         puts $proxy_dict[proxy_domain]['total']
-        Rails.logger.debug("This message is Green".green)
 
         $proxy_dict[proxy_domain]['total'] += 1
         #$proxy_dict.proxy_domain.total += 1
-        puts r.to_s
+
         if r.code == 200
 
             $redis.hincrby(proxy_domain, 'succ', 1)
@@ -85,15 +106,20 @@ class ProxyController < ApplicationController
         end
         proxy_url = "%s://%s:%s/" % [params["method"], params["ip"], params["port"]]
         domains = (ProxyDomain.all.pluck(:domain) + ['zillow.com']).uniq
+
         p domains
         p domains.class
-        $redis.hmset(proxy_url, 'total', 0)
-        $redis.hmset(proxy_url, 'succ', 0)
+
+
         #$redis.hmset(proxy_url, {'total' => 0, 'succ' => 0})
         for domain in domains
             proxy_domain_data = {"proxy" => proxy_url, "domain" => domain, "proxy_type" => params[:method]}
             proxy_domain = ProxyDomain.new(proxy_domain_data).save()
             p proxy_domain
+            proxy_domain_url = proxy_url + '@' + domain
+            $redis.hmset(proxy_domain_url, 'banned', 0)
+            $redis.hmset(proxy_domain_url, 'total', 0)
+            $redis.hmset(proxy_domain_url, 'succ', 0)
             #$redis.zadd(domain, {'total' => 0, 'succ' => 0})
             $redis.zadd(domain, 0, proxy_url)
         end

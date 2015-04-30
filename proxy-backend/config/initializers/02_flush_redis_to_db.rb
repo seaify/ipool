@@ -5,7 +5,7 @@
 scheduler = Rufus::Scheduler.start_new
 
 #flush redis to db
-scheduler.every("5s") do
+scheduler.every("30s") do
     proxy_domain_keys = $redis.keys("http:*@*")
     total_dict = {}
     succ_dict = {}
