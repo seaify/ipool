@@ -35,27 +35,13 @@ class ProxyController < ApplicationController
         puts(proxys)
         puts "end"
         proxy = proxys[0]
-        puts(proxy.class)
-        puts(proxy)
         host, port = get_host_port(proxy)
-        puts(host)
-        puts(port)
-        proxy_domain = proxy + '@' + host
+        proxy_domain = proxy + '@' + domain
+        puts proxy_domain
         $redis.hincrby(proxy_domain, 'total', 1)
         begin
             #r = (HTTP).via(host, port).get(params[:url])
             r = Excon.get(params[:url], :proxy => proxy)
-            puts "fuck u"
-            puts r
-            puts r.body
-        rescue Errno::ECONNRESET
-            #set banned, set negative score
-            $redis.hmset(proxy_domain, 'banned', 1)
-            $redis.hincrby(proxy_domain, 'total', 1)
-            $redis.zadd(domain, -100, proxy)
-            $redis.hmset(proxy_domain, 'banned_time', Time.now.to_i)
-            #
-            return render :json => {"code" => -1, "msg" => "error", "body" => "proxy failed"} # don't do msg.to_json
         rescue Exception => ex
             puts "An error of type #{ex.class} happened, message is #{ex.message}"
             puts proxy_domain
@@ -65,31 +51,16 @@ class ProxyController < ApplicationController
             $redis.hmset(proxy_domain, 'banned_time', Time.now.to_i)
             return render :json => {"code" => -1, "msg" => "error", "body" => "proxy failed"} # don't do msg.to_json
         end
-        puts r
-        puts r.body
-        puts "what happend"
 
-
-        if !$proxy_dict.has_key?(proxy_domain)
-            $proxy_dict[proxy_domain] = {'total' => 0, 'succ' => 0}
-            $proxy_dict[proxy_domain]['total'] = 0
-            $proxy_dict[proxy_domain]['succ'] = 0
-        end
-        $proxy_dict[proxy_domain] = {'total' => 0, 'succ' => 0}
-        puts $proxy_dict[proxy_domain]
-        puts $proxy_dict[proxy_domain]['total']
-
-        $proxy_dict[proxy_domain]['total'] += 1
-        #$proxy_dict.proxy_domain.total += 1
 
         if r.status== 200
 
             $redis.hincrby(proxy_domain, 'succ', 1)
-            #$proxy_dict[proxy_domain]['succ'] += 1
             #$redis.zadd(host, proxy, $proxy_dict[proxy_domain]['succ'] / $proxy_dict[proxy_domain]['total'])
 
             return render :json => {"code" => 0, "msg" => "ok", "body" => r.body.to_s.encode('UTF-8', {:invalid => :replace, :undef => :replace, :replace => '?'})} # don't do msg.to_json
         else
+            puts r.body
             return render :json => {"code" => -1, "msg" => "error", "body" => "proxy failed"} # don't do msg.to_json
         end
 
