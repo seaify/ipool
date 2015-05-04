@@ -2,10 +2,10 @@
 
 #$redis = Redis.new(:host => 'localhost', :port => 6379)
 ## to start scheduler
-scheduler = Rufus::Scheduler.start_new
+scheduler = Rufus::Scheduler.new
 
 #flush redis to db
-scheduler.every("30s") do
+scheduler.every("10m") do
     proxy_domain_keys = $redis.keys("http:*@*")
     total_dict = {}
     succ_dict = {}

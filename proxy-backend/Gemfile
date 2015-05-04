@@ -3,6 +3,7 @@ source 'https://ruby.taobao.org/'
 
 gem "http"
 gem 'monadic'
+gem "excon"
 gem "json"
 gem 'rufus-scheduler'
 

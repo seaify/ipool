@@ -1,4 +1,4 @@
-require 'http'
+require 'excon'
 require 'uri'
 require 'monadic'
 
@@ -28,7 +28,7 @@ class ProxyController < ApplicationController
     end
 
     def fetch_data
-        params[:url] = "https://github.com/seaify"
+        #params[:url] = "https://github.com/seaify"
         domain = get_domain(params[:url])
         proxys = $redis.zrevrange(domain, 0, 0)
         puts "hello"
@@ -43,10 +43,10 @@ class ProxyController < ApplicationController
         proxy_domain = proxy + '@' + host
         $redis.hincrby(proxy_domain, 'total', 1)
         begin
-            r = (HTTP).via(host, port).get(params[:url])
+            #r = (HTTP).via(host, port).get(params[:url])
+            r = Excon.get(params[:url], :proxy => proxy)
             puts "fuck u"
             puts r
-            puts r.to_s
             puts r.body
         rescue Errno::ECONNRESET
             #set banned, set negative score
@@ -82,13 +82,13 @@ class ProxyController < ApplicationController
         $proxy_dict[proxy_domain]['total'] += 1
         #$proxy_dict.proxy_domain.total += 1
 
-        if r.code == 200
+        if r.status== 200
 
             $redis.hincrby(proxy_domain, 'succ', 1)
-            $proxy_dict[proxy_domain]['succ'] += 1
-            $redis.zadd(host, proxy, $proxy_dict[proxy_domain]['succ'] / $proxy_dict[proxy_domain]['total'])
+            #$proxy_dict[proxy_domain]['succ'] += 1
+            #$redis.zadd(host, proxy, $proxy_dict[proxy_domain]['succ'] / $proxy_dict[proxy_domain]['total'])
 
-            return render :json => {"code" => 0, "msg" => "ok", "body" => r.to_s} # don't do msg.to_json
+            return render :json => {"code" => 0, "msg" => "ok", "body" => r.body.to_s.encode('UTF-8', {:invalid => :replace, :undef => :replace, :replace => '?'})} # don't do msg.to_json
         else
             return render :json => {"code" => -1, "msg" => "error", "body" => "proxy failed"} # don't do msg.to_json
         end
