@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get 'testme' => 'proxy#testme'
   get 'proxy_domains' => 'proxy#proxy_domains'
   get 'allow_all' => 'proxy#allow_all'
+  get 'allow_selected_proxy' => 'proxy#allow_selected_proxy'
   get 'ban_all' => 'proxy#ban_all'
   get 'add_proxy_api' => 'proxy#add_proxy_api'
 

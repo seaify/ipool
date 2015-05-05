@@ -37,9 +37,9 @@ class ProxyController < ApplicationController
         return render :json => {:data => @proxys}, :callback => params[:callback]
     end
 
-    def allow_proxy
+    def allow_selected_proxy
         ProxyDomain.where(:id => params[:ids]).update_all(:banned => 0, :banned_time => nil)
-        return render :json => {"code" => 0, "msg" => "set all proxy available done"} 
+        return render :json => {"code" => 0, "msg" => "set selected proxy available done"}, :callback => params[:callback]
     end
 
     def allow_all
