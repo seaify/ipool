@@ -8,6 +8,26 @@ class ProxyController < ApplicationController
         return render :json => {:data => @proxys}, :callback => params[:callback]
     end
 
+    def add_proxy_api
+        api_link = params[:proxyApi]
+        puts(api_link)
+        begin
+            #r = (HTTP).via(host, port).get(params[:url])
+            r = Excon.get(api_link)
+        rescue Exception => ex
+            puts "An error of type #{ex.class} happened, message is #{ex.message}"
+            return render :json => {"code" => -1, "msg" => "error", "body" => "add proxy api failed"}, :callback => params[:callback]
+        end
+
+        puts r.body
+        for line in r.body:
+            host, port, user, passwd = line.split(':')
+            proxy = "http://%s:%s@%s:%s" % [user, passwd, host, port]
+            #add proxy to redis & mysql
+        end
+        return render :json => {"code" => 0, "msg" => "error", "body" => "add proxy api Success"}, :callback => params[:callback]
+    end
+
     def proxy_domains
         @proxys = ProxyDomain.all
         return render :json => {:data => @proxys}, :callback => params[:callback]

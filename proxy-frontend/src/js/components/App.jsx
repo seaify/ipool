@@ -50,19 +50,35 @@ const LoginModal = React.createClass({
 
 
 const UrlInputModal = React.createClass({
-  render() {
+  
+  render: function() {
     return (
-      <Modal {...this.props} bsStyle='primary' title='导入代理url' animation={false}>
-        <div className='modal-body'>
-         <Input type='text' label='代理url' />
+      <Modal ref="hello" {...this.props} bsStyle='primary' title='导入代理url' animation={false}>
+        <div ref="fuck" className='modal-body'>
+         <Input ref="proxyApi" type='text' label='代理url' />
         </div>
         <div className='modal-footer'>
-          <Button onClick={this.props.onRequestHide}>提交</Button>
+          <Button onClick={this.addProxyApi} >提交</Button>
           <Button onClick={this.props.onRequestHide}>关闭</Button>
         </div>
       </Modal>
     );
-  }
+  },
+
+
+  addProxyApi: function(){
+    var proxy_api = this.refs.proxyApi.getValue();
+    console.log(proxy_api);
+    jquery.ajax({
+      url: "http://localhost:3000/add_proxy_api",
+      dataType: "jsonp",
+      data: {"proxyApi": proxy_api},
+      success: function(data){
+        console.log(data);
+        
+      }});
+
+  },
 });
 
 
@@ -161,6 +177,7 @@ let App = React.createClass({
      //need reload data
   },
 
+  
 
   banAllProxy: function(){
      jquery.ajax({
@@ -191,7 +208,7 @@ let App = React.createClass({
             </MenuItem>
             <MenuItem eventKey='2'>
               <ModalTrigger modal={<UrlInputModal />}>
-                <Button>导入代理url</Button>
+                <Button >导入代理url</Button>
               </ModalTrigger>
             </MenuItem>
           </DropdownButton>
@@ -209,7 +226,7 @@ let App = React.createClass({
 
           </Table>
         <ButtonToolbar>
-          <Button onClick={this.allowProxy.bind(this, column)} onClick={this.allow_proxy}>启用</Button>
+          <Button   >启用</Button>
           <Button  onClick={this.allowAllProxy}>全部启用</Button>
           <Button  onClick={this.banAllProxy}>全部禁用</Button>
           <Button  onClick={this.ban_proxy}>禁用</Button>

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get 'proxy_domains' => 'proxy#proxy_domains'
   get 'allow_all' => 'proxy#allow_all'
   get 'ban_all' => 'proxy#ban_all'
+  get 'add_proxy_api' => 'proxy#add_proxy_api'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
