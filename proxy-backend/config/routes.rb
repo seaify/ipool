@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   post 'fetch_data' => 'proxy#fetch_data'
   get 'testme' => 'proxy#testme'
   get 'proxy_domains' => 'proxy#proxy_domains'
+  get 'allow_all' => 'proxy#allow_all'
+  get 'ban_all' => 'proxy#ban_all'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -151,6 +151,28 @@ let App = React.createClass({
     ActionCreator.clearList();
   },
 
+  allowAllProxy: function(){
+     jquery.ajax({
+      url: "http://127.0.0.1:3000/allow_all",
+      dataType: "jsonp",
+      success: function(data){
+        console.log(data);
+      }});
+     //need reload data
+  },
+
+
+  banAllProxy: function(){
+     jquery.ajax({
+      url: "http://127.0.0.1:3000/ban_all",
+      dataType: "jsonp",
+      success: function(data){
+        console.log(data);
+      }});
+     //need reload data
+  },
+
+
   saveTags: function () {
     console.log('tags: ', this.refs.tags.getTags().join(', '));
   },
@@ -181,25 +203,20 @@ let App = React.createClass({
         </Nav>
       </Navbar>
 
-
     <TabbedArea defaultActiveKey={2}>
       <TabPane eventKey={1} tab='代理按domain'>
         <Table className="table table-striped table-bordered table-hover" selectedRows={[0,3,4]} checkbox={true} filterable={['proxy', 'domain']} sortable={true} data={this.state.proxies_domain} itemsPerPage={50} >
 
           </Table>
         <ButtonToolbar>
-          <Button>启用</Button>
-          <Button>禁用</Button>
-          <Button>删除</Button>
+          <Button onClick={this.allowProxy.bind(this, column)} onClick={this.allow_proxy}>启用</Button>
+          <Button  onClick={this.allowAllProxy}>全部启用</Button>
+          <Button  onClick={this.banAllProxy}>全部禁用</Button>
+          <Button  onClick={this.ban_proxy}>禁用</Button>
         </ButtonToolbar>
       </TabPane>
       <TabPane eventKey={2} tab='代理禁用表'>
         <Table className="table table-striped table-bordered table-hover" selectedRows={[0,3,4]} checkbox={true} filterable={['proxy', 'domain']} sortable={true} data={this.state.proxies} itemsPerPage={50} />
-        <ButtonToolbar>
-          <Button>启用</Button>
-          <Button>禁用</Button>
-          <Button>删除</Button>
-        </ButtonToolbar>
       </TabPane>
     </TabbedArea>
 

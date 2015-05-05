@@ -13,6 +13,26 @@ class ProxyController < ApplicationController
         return render :json => {:data => @proxys}, :callback => params[:callback]
     end
 
+    def allow_proxy
+        ProxyDomain.where(:id => params[:ids]).update_all(:banned => 0, :banned_time => nil)
+        return render :json => {"code" => 0, "msg" => "set all proxy available done"} 
+    end
+
+    def allow_all
+        ProxyDomain.update_all(:banned => 0, :banned_time => nil)
+        return render :json => {"code" => 0, "msg" => "set all proxy available done"} 
+    end
+
+    def ban_proxy
+        ProxyDomain.where(:id => params[:ids]).update_all(:banned => 1, :banned_time => Time.now.strftime("%Y-%m-%d %H:%M:%S"))
+        return render :json => {"code" => 0, "msg" => "ban all proxy available done"}
+    end
+
+    def ban_all
+        ProxyDomain.update_all(:banned => 1, :banned_time => Time.now.strftime("%Y-%m-%d %H:%M:%S"))
+        return render :json => {"code" => 0, "msg" => "set all proxy available done"} 
+    end
+
 
     def get_domain(url)
         #todo
