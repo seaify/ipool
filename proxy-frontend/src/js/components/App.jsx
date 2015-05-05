@@ -83,14 +83,27 @@ const UrlInputModal = React.createClass({
 
 
 const FileInputModal = React.createClass({
-  render() {
+  handleSubmitFile: function(e){
+      console.log(this.refs.myFile);
+      console.log(this.refs.myFile.getValue());
+      console.log(e);
+       var reader = new FileReader();
+      //$(this.refs.myFile.getDOMNode()).fileupload('add', {url: "myurl"});
+  },
+
+  render: function() {
     return (
       <Modal {...this.props} bsStyle='primary' title='导入代理文件' animation={false}>
+
         <div className='modal-body'>
-         <Input type='file' label='File' />
+        <form>
+            <Input ref="myFile" type='file' label='File' />
+            <Input type='submit' value='Submit button' />
+        </form>
+
         </div>
         <div className='modal-footer'>
-          <Button onClick={this.props.onRequestHide}>提交</Button>
+          <Button onClick={this.handleSubmitFile}>提交</Button>
           <Button onClick={this.props.onRequestHide}>关闭</Button>
         </div>
       </Modal>

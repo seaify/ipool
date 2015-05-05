@@ -28,6 +28,10 @@ class ProxyController < ApplicationController
         return render :json => {"code" => 0, "msg" => "error", "body" => "add proxy api Success"}, :callback => params[:callback]
     end
 
+    def add_proxy_txt
+        return render :json => {"code" => 0, "msg" => "error", "body" => "add proxy api Success"}, :callback => params[:callback]
+    end
+
     def proxy_domains
         @proxys = ProxyDomain.all
         return render :json => {:data => @proxys}, :callback => params[:callback]
@@ -40,17 +44,17 @@ class ProxyController < ApplicationController
 
     def allow_all
         ProxyDomain.update_all(:banned => 0, :banned_time => nil)
-        return render :json => {"code" => 0, "msg" => "set all proxy available done"} 
+        return render :json => {"code" => 0, "msg" => "set all proxy available done"}, :callback => params[:callback]
     end
 
     def ban_proxy
         ProxyDomain.where(:id => params[:ids]).update_all(:banned => 1, :banned_time => Time.now.strftime("%Y-%m-%d %H:%M:%S"))
-        return render :json => {"code" => 0, "msg" => "ban all proxy available done"}
+        return render :json => {"code" => 0, "msg" => "ban selected proxy available done"}, :callback => params[:callback]
     end
 
     def ban_all
         ProxyDomain.update_all(:banned => 1, :banned_time => Time.now.strftime("%Y-%m-%d %H:%M:%S"))
-        return render :json => {"code" => 0, "msg" => "set all proxy available done"} 
+        return render :json => {"code" => 0, "msg" => "set all proxy available done"}, :callback => params[:callback]
     end
 
 
