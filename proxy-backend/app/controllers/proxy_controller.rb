@@ -10,7 +10,6 @@ class ProxyController < ApplicationController
 
     def add_proxy_api
         api_link = params[:proxyApi]
-        puts(api_link)
         begin
             #r = (HTTP).via(host, port).get(params[:url])
             r = Excon.get(api_link)
@@ -19,10 +18,11 @@ class ProxyController < ApplicationController
             return render :json => {"code" => -1, "msg" => "error", "body" => "add proxy api failed"}, :callback => params[:callback]
         end
 
-        puts r.body
-        for line in r.body:
-            host, port, user, passwd = line.split(':')
+        lines = r.body.split("\n")
+        for line in lines
+            host, port, user, passwd = line.gsub('\n', '').split(':')
             proxy = "http://%s:%s@%s:%s" % [user, passwd, host, port]
+            add_proxy_url(proxy)
             #add proxy to redis & mysql
         end
         return render :json => {"code" => 0, "msg" => "error", "body" => "add proxy api Success"}, :callback => params[:callback]
@@ -106,25 +106,16 @@ class ProxyController < ApplicationController
 
     end
 
-
-
-    def add_proxy
-        #params = {"method" => "http", "ip" => "1.2.2.3", "port" => 80}
-        puts params
-        params["method"] = params["method"].downcase
-        if params["method"].downcase != "http"
-            return render :json => {"code" => -1, "msg" => "only need http proxy"} # don't do msg.to_json
-        end
-        proxy_url = "%s://%s:%s/" % [params["method"], params["ip"], params["port"]]
+    def add_proxy_url(proxy_url)
+        method = proxy_url.split(':')[0]
         domains = (ProxyDomain.all.pluck(:domain) + ['zillow.com']).uniq
 
         p domains
         p domains.class
 
-
         #$redis.hmset(proxy_url, {'total' => 0, 'succ' => 0})
         for domain in domains
-            proxy_domain_data = {"proxy" => proxy_url, "domain" => domain, "proxy_type" => params[:method]}
+            proxy_domain_data = {"proxy" => proxy_url, "domain" => domain, "proxy_type" => method}
             proxy_domain = ProxyDomain.new(proxy_domain_data).save()
             p proxy_domain
             proxy_domain_url = proxy_url + '@' + domain
@@ -134,9 +125,14 @@ class ProxyController < ApplicationController
             #$redis.zadd(domain, {'total' => 0, 'succ' => 0})
             $redis.zadd(domain, 0, proxy_url)
         end
-        proxy_data = {"proxy" => proxy_url, "proxy_type" => params[:method]}
+        proxy_data = {"proxy" => proxy_url, "proxy_type" => method}
         proxy = Proxy.new(proxy_data).save()
         p proxy
+
+    end
+
+    def add_proxy(proxy_url)
+        add_proxy_url(proxy_url)
         render :json => {"msg" => "ok"} # don't do msg.to_json
     end
 

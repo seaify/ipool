@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150430035310) do
+ActiveRecord::Schema.define(version: 20150505064417) do
 
   create_table "entries", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -37,6 +37,8 @@ ActiveRecord::Schema.define(version: 20150430035310) do
     t.datetime "updated_at",                               null: false
   end
 
+  add_index "proxies", ["proxy"], name: "index_proxies_on_proxy", unique: true, using: :btree
+
   create_table "proxy_domains", force: :cascade do |t|
     t.string   "proxy",       limit: 255
     t.string   "domain",      limit: 255
@@ -49,5 +51,7 @@ ActiveRecord::Schema.define(version: 20150430035310) do
     t.string   "banned",      limit: 255
     t.datetime "banned_time"
   end
+
+  add_index "proxy_domains", ["proxy"], name: "index_proxy_domains_on_proxy", unique: true, using: :btree
 
 end
