@@ -42,6 +42,12 @@ class ProxyController < ApplicationController
         return render :json => {"code" => 0, "msg" => "set selected proxy available done"}, :callback => params[:callback]
     end
 
+
+    def delete_selected_proxy
+        ProxyDomain.where(:id => params[:ids]).delete_all
+        return render :json => {"code" => 0, "msg" => "delete selected proxy done"}, :callback => params[:callback]
+    end
+
     def ban_selected_proxy
         ProxyDomain.where(:id => params[:ids]).update_all(:banned => 1, :banned_time => Time.now.strftime("%Y-%m-%d %H:%M:%S"))
         return render :json => {"code" => 0, "msg" => "set selected proxy banned done"}, :callback => params[:callback]

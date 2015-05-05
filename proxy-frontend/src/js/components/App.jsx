@@ -180,6 +180,7 @@ let App = React.createClass({
     ActionCreator.clearList();
   },
 
+
   allowAllProxy: function(){
      jquery.ajax({
       url: "http://127.0.0.1:3000/allow_all",
@@ -188,6 +189,29 @@ let App = React.createClass({
         console.log(data);
       }});
      //need reload data
+  },
+
+  deleteSelectedProxy: function(){
+    console.log(this.refs.proxyTable);
+    var ids_array = this.refs.proxyTable.state.rowStates;
+    console.log(ids_array);
+    console.log(_.keys(ids_array));
+    var proxy_ids = [];
+    for (var index in ids_array){
+      if(ids_array.hasOwnProperty(index) && ids_array[index] == true){
+        console.log(index);
+        proxy_ids.push(this.refs.proxyTable.data[index]['id']);
+      }
+    }
+    console.log(proxy_ids);
+
+     jquery.ajax({
+      url: "http://127.0.0.1:3000/delete_selected_proxy",
+      dataType: "jsonp",
+      data: {"ids": proxy_ids},
+      success: function(data){
+        console.log(data);
+      }});
   },
 
   allowSelectedProxy: function(){
@@ -290,6 +314,7 @@ let App = React.createClass({
           <Button  onClick={this.allowAllProxy}>全部启用</Button>
           <Button  onClick={this.banSelectedProxy}>禁用</Button>
           <Button  onClick={this.banAllProxy}>全部禁用</Button>
+          <Button  onClick={this.deleteSelectedProxy}>删除</Button>
         </ButtonToolbar>
       </TabPane>
       <TabPane eventKey={2} tab='代理禁用表'>
