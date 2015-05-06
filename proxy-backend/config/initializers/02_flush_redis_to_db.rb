@@ -11,23 +11,14 @@ scheduler.every("10m") do
     succ_dict = {}
     for proxy_domain in proxy_domain_keys
         proxy, domain = proxy_domain.split('@')
-        #for proxy_domain in proxy_domain_keys.slice(0, 5)
 
-        puts(proxy)
-        puts(domain)
         result = $redis.hgetall(proxy_domain)
         puts(result)
         if result['total'] == '0'
-            #ProxyDomain.update_all(:succ_ratio => 0.0, :succ => result['succ'].to_i, :total => result['total'].to_i, ["proxy = ? and domain = ?", proxy, domain])
-            #puts ProxyDomain.where('proxy = ? AND domain = ?', proxy, domain).limit(1)
             ProxyDomain.where('proxy = ? AND domain = ?', proxy, domain).limit(1).update_all(:succ_ratio => 0.0, :succ => result['succ'], :total => result['total'])
-            #puts ProxyDomain.where(:proxy => "http://163.177.79.5:80/", :domain => "zillow.com").limit(1)
-            #puts ProxyDomain.where(:proxy => proxy, :domain => domain).limit(1)
-            #ProxyDomain.where(:proxy => proxy, :domain => domain).limit(1)
         else
             score = result['succ'].to_f / result['total'].to_f
             ProxyDomain.where('proxy = ? AND domain = ?', proxy, domain).limit(1).update_all(:succ_ratio => score, :succ => result['succ'], :total => result['total'])
-            #ProxyDomain.where(:proxy => proxy, :domain => domain).limit(1).update_attributes(:succ_ratio => result['succ'].to_i / result['total'].to_i, :succ => result['succ'], :total => result['total'])
         end
 
 
