@@ -5,7 +5,7 @@
 scheduler = Rufus::Scheduler.new
 
 #flush redis to db
-scheduler.every("10m") do
+scheduler.every("1m") do
     proxy_domain_keys = $redis.keys("http:*@*")
     total_dict = {}
     succ_dict = {}
@@ -15,10 +15,10 @@ scheduler.every("10m") do
         result = $redis.hgetall(proxy_domain)
         puts(result)
         if result['total'] == '0'
-            ProxyDomain.where('proxy = ? AND domain = ?', proxy, domain).limit(1).update_all(:succ_ratio => 0.0, :succ => result['succ'], :total => result['total'])
+            ProxyDomain.where('proxy = ? AND domain = ?', proxy, domain).limit(1).update_all(:in_use => result['in_use'], :succ_ratio => 0.0, :succ => result['succ'], :total => result['total'])
         else
             score = result['succ'].to_f / result['total'].to_f
-            ProxyDomain.where('proxy = ? AND domain = ?', proxy, domain).limit(1).update_all(:succ_ratio => score, :succ => result['succ'], :total => result['total'])
+            ProxyDomain.where('proxy = ? AND domain = ?', proxy, domain).limit(1).update_all(:in_use => result['in_use'], :succ_ratio => score, :succ => result['succ'], :total => result['total'])
         end
 
 
