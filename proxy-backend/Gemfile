@@ -5,6 +5,7 @@ gem "http"
 gem 'monadic'
 gem "excon"
 gem "json"
+gem 'annotate', '~> 2.6.6'
 gem 'rufus-scheduler'
 
 
