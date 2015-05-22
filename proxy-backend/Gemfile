@@ -1,7 +1,12 @@
 #source 'https://rubygems.org'
-source 'https://ruby.taobao.org/'
+if ENV['RUBYTAOBAO']
+  source 'http://ruby.taobao.org'
+else
+  source 'https://rubygems.org'
+end
 
 gem "http"
+gem "rake"
 gem 'monadic'
 gem "excon"
 gem "json"
