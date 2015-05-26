@@ -1,7 +1,4 @@
 const React = require('react');
-const TodoStore = require('../stores/TodoStore');
-const ActionCreator = require('../actions/TodoActionCreators');
-const TaskList = require('./TaskList.jsx');
 const mui = require('material-ui');
 const reactbootstrap = require('react-bootstrap');
 const Reactable = require('./reactable.jsx');
@@ -50,7 +47,7 @@ const LoginModal = React.createClass({
 
 
 const UrlInputModal = React.createClass({
-  
+
   render: function() {
     return (
       <Modal ref="hello" {...this.props} bsStyle='primary' title='导入代理url' animation={false}>
@@ -75,7 +72,7 @@ const UrlInputModal = React.createClass({
       data: {"proxyApi": proxy_api},
       success: function(data){
         console.log(data);
-        
+
       }});
 
   },
@@ -123,7 +120,6 @@ let App = React.createClass({
   },
 
   _onChange() {
-    this.setState(TodoStore.getAll());
   },
 
   componentDidMount() {
@@ -162,11 +158,9 @@ let App = React.createClass({
       }});
 
 
-    TodoStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount() {
-    TodoStore.removeChangeListener(this._onChange);
   },
 
   handleAddNewClick(e) {
@@ -261,7 +255,7 @@ let App = React.createClass({
       }});
   },
 
-  
+
 
   banAllProxy: function(){
      jquery.ajax({
