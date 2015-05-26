@@ -2,14 +2,13 @@ const React = require('react');
 const mui = require('material-ui');
 const reactbootstrap = require('react-bootstrap');
 const Reactable = require('./reactable.jsx');
-const request = require('request');
 const jquery = require('jquery');
-const _ = require('lodash');
+//const _ = require('lodash');
 
 //var Table = Reactable.Table;
 let {Td, Table, Tr} = Reactable;
 //for material-ui
-let {DropDownIcon, Toolbar, ToolbarGroup, Tabs, Tab, Checkbox, RadioButton, RadioButtonGroup, Toggle, Slider, Menu, LeftNav, MenuItem, ActionGrade, IconButton, DropDownMenu, Dialog, DatePicker, RaisedButton, FlatButton, FontIcon, FloatingActionButton} = mui;
+//let {DropDownIcon, Toolbar, ToolbarGroup, Tabs, Tab, Checkbox, RadioButton, RadioButtonGroup, Toggle, Slider, Menu, LeftNav, MenuItem, ActionGrade, IconButton, DropDownMenu, Dialog, DatePicker, RaisedButton, FlatButton, FontIcon, FloatingActionButton} = mui;
 
 //for bootstrap
 let {Input, ModalTrigger, Navbar, Nav, NavItem, TabbedArea, TabPane, Popover, ButtonToolbar, OverlayTrigger, Tooltip, Panel, Modal, ButtonGroup, DropdownButton, ButtonToolbar, Button} = reactbootstrap;
@@ -189,7 +188,6 @@ let App = React.createClass({
     console.log(this.refs.proxyTable);
     var ids_array = this.refs.proxyTable.state.rowStates;
     console.log(ids_array);
-    console.log(_.keys(ids_array));
     var proxy_ids = [];
     for (var index in ids_array){
       if(ids_array.hasOwnProperty(index) && ids_array[index] == true){
@@ -212,7 +210,6 @@ let App = React.createClass({
     console.log(this.refs.proxyTable);
     var ids_array = this.refs.proxyTable.state.rowStates;
     console.log(ids_array);
-    console.log(_.keys(ids_array));
     var proxy_ids = [];
     for (var index in ids_array){
       if(ids_array.hasOwnProperty(index) && ids_array[index] == true){
@@ -236,7 +233,6 @@ let App = React.createClass({
     console.log(this.refs.proxyTable);
     var ids_array = this.refs.proxyTable.state.rowStates;
     console.log(ids_array);
-    console.log(_.keys(ids_array));
     var proxy_ids = [];
     for (var index in ids_array){
       if(ids_array.hasOwnProperty(index) && ids_array[index] == true){
