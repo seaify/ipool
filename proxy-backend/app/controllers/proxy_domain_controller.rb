@@ -16,15 +16,13 @@ class ProxyDomainController < ApplicationController
     uri = URI(url)
     puts uri
     return [uri.host, uri.port]
-
   end
 
   def get_proxy
     domain = get_domain(params[:url])
-    proxys = $redis.zrevrange(domain + ':wait_use', 0, 10)
-    if proxys
-      proxy = proxys.sample
-      return render :json => {"code" => 0, "msg" => "ok", "proxy" => proxy}
+    record = ProxyDomain.where('in_use' =>false, 'banned' => false).order(succ_ratio: :desc).first
+    if record
+      return render :json => {"code" => 0, "msg" => "ok", "proxy" => record.proxy}
     else
       return render :json => {"code" => -1, "msg" => "no proxy for use"}
     end

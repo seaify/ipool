@@ -11,9 +11,9 @@
 #  total       :integer          default(0)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  banned      :string(255)
+#  banned      :boolean          default(FALSE)
 #  banned_time :datetime
-#  in_use      :integer          default(0)
+#  in_use      :boolean          default(FALSE)
 #  country     :string(255)
 #
 

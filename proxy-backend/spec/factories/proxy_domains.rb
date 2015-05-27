@@ -11,13 +11,11 @@
 #  total       :integer          default(0)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  banned      :string(255)
+#  banned      :boolean          default(FALSE)
 #  banned_time :datetime
-#  in_use      :integer          default(0)
+#  in_use      :boolean          default(FALSE)
 #  country     :string(255)
 #
-
-
 
 FactoryGirl.define do
   factory :high_proxy , class: ProxyDomain do
@@ -40,6 +38,19 @@ FactoryGirl.define do
     succ_ratio 0.3
     domain "zillow.com"
   end
+
+  trait :banned do
+    banned true
+  end
+
+
+  trait :in_use do
+    in_use true
+  end
+
+  factory :high_proxy_in_use, traits: [:in_use]
+  factory :middle_proxy_in_use, traits: [:in_use]
+  factory :low_proxy_in_use, traits: [:in_use]
 
 
 end
