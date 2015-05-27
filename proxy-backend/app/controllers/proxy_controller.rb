@@ -1,6 +1,4 @@
-require 'excon'
 require 'uri'
-require 'monadic'
 
 class ProxyController < ApplicationController
     def proxys
@@ -116,7 +114,10 @@ class ProxyController < ApplicationController
 
         #$redis.hmset(proxy_url, {'total' => 0, 'succ' => 0})
         for domain in domains
-            proxy_domain_data = {"proxy" => proxy_url, "domain" => domain, "proxy_type" => method}
+            response = Excon.get('http://localhost:8105/json/' + domain)
+            country = JSON.parse(response.body)
+            puts country
+            proxy_domain_data = {"country" => country, "proxy" => proxy_url, "domain" => domain, "proxy_type" => method}
             proxy_domain = ProxyDomain.new(proxy_domain_data).save()
             p proxy_domain
             proxy_domain_url = proxy_url + '@' + domain
@@ -132,9 +133,14 @@ class ProxyController < ApplicationController
 
     end
 
-    def add_proxy(proxy_url)
-        add_proxy_url(proxy_url)
-        render :json => {"msg" => "ok"} # don't do msg.to_json
+    def add_proxy
+        proxy_url = params[:proxy_url]
+        if proxy_url.start_with?("http:")
+          add_proxy_url(params[:proxy_url])
+          render :json => {"msg" => "ok"} # don't do msg.to_json
+        else
+          render :json => {"msg" => "only accept http proxy"} # don't do msg.to_json
+        end
     end
 
 end

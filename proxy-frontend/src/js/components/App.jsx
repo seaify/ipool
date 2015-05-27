@@ -3,12 +3,13 @@ const mui = require('material-ui');
 const reactbootstrap = require('react-bootstrap');
 const Reactable = require('./reactable.jsx');
 const jquery = require('jquery');
+const BASE_URL = "http://104.236.146.175:8102";
 //const _ = require('lodash');
 
 //var Table = Reactable.Table;
 let {Td, Table, Tr} = Reactable;
 //for material-ui
-//let {DropDownIcon, Toolbar, ToolbarGroup, Tabs, Tab, Checkbox, RadioButton, RadioButtonGroup, Toggle, Slider, Menu, LeftNav, MenuItem, ActionGrade, IconButton, DropDownMenu, Dialog, DatePicker, RaisedButton, FlatButton, FontIcon, FloatingActionButton} = mui;
+let {DropDownIcon, Toolbar, ToolbarGroup, Tabs, Tab, Checkbox, RadioButton, RadioButtonGroup, Toggle, Slider, Menu, LeftNav, MenuItem, ActionGrade, IconButton, DropDownMenu, Dialog, DatePicker, RaisedButton, FlatButton, FontIcon, FloatingActionButton} = mui;
 
 //for bootstrap
 let {Input, ModalTrigger, Navbar, Nav, NavItem, TabbedArea, TabPane, Popover, ButtonToolbar, OverlayTrigger, Tooltip, Panel, Modal, ButtonGroup, DropdownButton, ButtonToolbar, Button} = reactbootstrap;
@@ -128,7 +129,7 @@ let App = React.createClass({
     //self.setState({'proxies': proxies});
     //self.setState({'proxies_domain': proxies_domain});
     jquery.ajax({
-      url: "http://127.0.0.1:3000/proxys.json",
+      url: BASE_URL + "/proxys.json",
       dataType: "jsonp",
       success: function(data){
         console.log("proxys.json succ");
@@ -143,7 +144,7 @@ let App = React.createClass({
       }});
 
     jquery.ajax({
-      url: "http://127.0.0.1:3000/proxy_domains.json",
+      url: BASE_URL + "/proxy_domains.json",
       dataType: "jsonp",
       success: function(data){
         console.log(self);
@@ -176,7 +177,7 @@ let App = React.createClass({
 
   allowAllProxy: function(){
      jquery.ajax({
-      url: "http://127.0.0.1:3000/allow_all",
+      url: BASE_URL + "/allow_all",
       dataType: "jsonp",
       success: function(data){
         console.log(data);
@@ -198,7 +199,7 @@ let App = React.createClass({
     console.log(proxy_ids);
 
      jquery.ajax({
-      url: "http://127.0.0.1:3000/delete_selected_proxy",
+      url: BASE_URL + "/delete_selected_proxy",
       dataType: "jsonp",
       data: {"ids": proxy_ids},
       success: function(data){
@@ -220,7 +221,7 @@ let App = React.createClass({
     console.log(proxy_ids);
 
      jquery.ajax({
-      url: "http://127.0.0.1:3000/allow_selected_proxy",
+      url: BASE_URL + "/allow_selected_proxy",
       dataType: "jsonp",
       data: {"ids": proxy_ids},
       success: function(data){
@@ -243,7 +244,7 @@ let App = React.createClass({
     console.log(proxy_ids);
 
      jquery.ajax({
-      url: "http://127.0.0.1:3000/ban_selected_proxy",
+      url: BASE_URL + "/ban_selected_proxy",
       dataType: "jsonp",
       data: {"ids": proxy_ids},
       success: function(data){
@@ -255,7 +256,7 @@ let App = React.createClass({
 
   banAllProxy: function(){
      jquery.ajax({
-      url: "http://127.0.0.1:3000/ban_all",
+      url: BASE_URL + "/ban_all",
       dataType: "jsonp",
       success: function(data){
         console.log(data);

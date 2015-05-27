@@ -12,6 +12,9 @@ gem "excon"
 gem "json"
 gem 'annotate', '~> 2.6.6'
 gem 'rufus-scheduler'
+gem 'rspec'
+gem 'cucumber'
+gem 'mysql2'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -53,7 +56,17 @@ group :development, :test do
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
-
+  gem 'guard'
+  gem 'guard-migrate'
+  gem 'guard-uglify'
+  gem 'guard-rspec', require: false
+  gem 'guard-livereload', require: false
+  gem 'guard-bundler', require: false
+  gem 'guard-spork'
+  gem 'guard-concat'
+  gem 'guard-shell'
+  gem 'guard-annotate'
+  gem 'growl'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end
