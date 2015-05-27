@@ -20,8 +20,16 @@ RSpec.describe ProxyController, type: :controller do
       expect(ProxyDomain.all.count).to eq 0
     end
 
+  end
 
+  describe "POST #report_proxy_stats" do
 
   end
+
+
+  describe "GET #get_proxy" do
+
+  end
+
 
 end
