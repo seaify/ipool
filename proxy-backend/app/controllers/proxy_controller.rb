@@ -109,17 +109,11 @@ class ProxyController < ApplicationController
         method = proxy_url.split(':')[0]
         domains = (ProxyDomain.all.pluck(:domain) + ['zillow.com']).uniq
 
-        p domains
-        p domains.class
-
-        #$redis.hmset(proxy_url, {'total' => 0, 'succ' => 0})
         for domain in domains
             response = Excon.get('http://localhost:8105/json/' + domain)
-            country = JSON.parse(response.body)
-            puts country
+            country = JSON.parse(response.body)['country_code']
             proxy_domain_data = {"country" => country, "proxy" => proxy_url, "domain" => domain, "proxy_type" => method}
             proxy_domain = ProxyDomain.new(proxy_domain_data).save()
-            p proxy_domain
             proxy_domain_url = proxy_url + '@' + domain
             $redis.hmset(proxy_domain_url, 'banned', 0)
             $redis.hmset(proxy_domain_url, 'total', 0)
@@ -129,7 +123,6 @@ class ProxyController < ApplicationController
         end
         proxy_data = {"proxy" => proxy_url, "proxy_type" => method}
         proxy = Proxy.new(proxy_data).save()
-        p proxy
 
     end
 
