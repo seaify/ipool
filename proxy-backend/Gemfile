@@ -12,17 +12,16 @@ gem "excon"
 gem "json"
 gem 'annotate', '~> 2.6.6'
 gem 'rufus-scheduler'
-gem 'rspec'
-gem 'cucumber'
-gem 'mysql2'
+#gem 'rspec'
+#gem 'cucumber'
+#gem 'mysql2'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
 gem 'mysql'
-gem 'redis', '2.1.1'
+gem 'redis'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -71,3 +70,15 @@ group :development, :test do
   gem 'spring'
 end
 
+group :development, :test do
+  gem 'factory_girl_rails'
+  gem 'rspec-rails', '~> 3.0'
+  gem 'pry-rails'
+  gem 'pry-nav'
+  gem 'sqlite3'
+end
+
+group :test do
+  gem 'database_cleaner'
+  gem 'rspec-sidekiq'
+end

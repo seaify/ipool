@@ -3,7 +3,7 @@ const mui = require('material-ui');
 const reactbootstrap = require('react-bootstrap');
 const Reactable = require('./reactable.jsx');
 const jquery = require('jquery');
-const BASE_URL = "http://104.236.146.175:8102";
+const BASE_URL = "http://104.236.131.39:8102";
 //const _ = require('lodash');
 
 //var Table = Reactable.Table;

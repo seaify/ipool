@@ -1,12 +1,15 @@
 # == Schema Information
 #
-# Table name: people
+# Table name: items
 #
 #  id         :integer          not null, primary key
-#  name       :string(255)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
-class Person < ActiveRecord::Base
+FactoryGirl.define do
+  factory :item do
+    
+  end
+
 end
