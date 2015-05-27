@@ -98,9 +98,10 @@ class ProxyController < ApplicationController
         proxy = params[:proxy]
         use_num.each do |domain, value|
             proxy_domain = '%s@%s' % [proxy, domain]
-            s = $redis.hincrby(proxy_domain, 'total', value['total'])
-            f = $redis.hincrby(proxy_domain, 'succ', value['succ'])
-            $redis.zadd(domain, s/f, proxy)
+            total = $redis.hincrby(proxy_domain, 'total', value['total'])
+            succ = $redis.hincrby(proxy_domain, 'succ', value['succ'])
+            puts value
+            $redis.zadd(domain, succ/total, proxy)
         end
         return render :json => {"code" => 0, "msg" => "thanks for your report"}
     end

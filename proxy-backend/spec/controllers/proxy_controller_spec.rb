@@ -23,6 +23,18 @@ RSpec.describe ProxyController, type: :controller do
   end
 
   describe "POST #report_proxy_stats" do
+    it "report domain proxy use num" do
+
+      data = {
+        "use_num" => {
+        "www.wego.com" => {"succ"=>0, "total"=>13}
+        },
+        "proxy" => "http://75.144.226.89:8080/"
+      }
+
+      post :report_proxy_stats,  ActionController::Parameters.new(data)
+      puts response
+    end
 
   end
 
