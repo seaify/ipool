@@ -14,9 +14,9 @@
 ActiveRecord::Schema.define(version: 20150527030533) do
 
   create_table "entries", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "items", force: :cascade do |t|
@@ -25,40 +25,41 @@ ActiveRecord::Schema.define(version: 20150527030533) do
   end
 
   create_table "people", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "proxies", force: :cascade do |t|
-    t.string   "proxy"
-    t.boolean  "banned",      default: false
+    t.string   "proxy",       limit: 255
+    t.boolean  "banned",      limit: 1,   default: false
     t.datetime "banned_time"
-    t.string   "proxy_type",  default: "http"
-    t.float    "succ_ratio",  default: 0.0
-    t.integer  "succ",        default: 0
-    t.integer  "total",       default: 0
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.string   "country"
+    t.string   "proxy_type",  limit: 255, default: "http"
+    t.float    "succ_ratio",  limit: 24,  default: 0.0
+    t.integer  "succ",        limit: 4,   default: 0
+    t.integer  "total",       limit: 4,   default: 0
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.string   "country",     limit: 255
   end
 
-  add_index "proxies", ["proxy"], name: "index_proxies_on_proxy", unique: true
+  add_index "proxies", ["proxy"], name: "index_proxies_on_proxy", unique: true, using: :btree
 
   create_table "proxy_domains", force: :cascade do |t|
-    t.string   "proxy"
-    t.string   "domain"
-    t.string   "proxy_type",  default: "http"
-    t.float    "succ_ratio",  default: 0.0
-    t.integer  "succ",        default: 0
-    t.integer  "total",       default: 0
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.string   "banned"
+    t.string   "proxy",       limit: 255
+    t.string   "domain",      limit: 255
+    t.string   "proxy_type",  limit: 255, default: "http"
+    t.float    "succ_ratio",  limit: 24,  default: 0.0
+    t.integer  "succ",        limit: 4,   default: 0
+    t.integer  "total",       limit: 4,   default: 0
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.string   "banned",      limit: 255
     t.datetime "banned_time"
-    t.string   "country"
+    t.integer  "in_use",      limit: 4,   default: 0
+    t.string   "country",     limit: 255
   end
 
-  add_index "proxy_domains", ["proxy"], name: "index_proxy_domains_on_proxy", unique: true
+  add_index "proxy_domains", ["proxy"], name: "index_proxy_domains_on_proxy", unique: true, using: :btree
 
 end
