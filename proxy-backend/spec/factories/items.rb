@@ -9,7 +9,7 @@
 
 FactoryGirl.define do
   factory :item do
-    
+    hello "what"
   end
 
 end

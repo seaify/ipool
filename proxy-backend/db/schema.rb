@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150527030533) do
+ActiveRecord::Schema.define(version: 20150527085150) do
 
   create_table "entries", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20150527030533) do
     t.string   "country",     limit: 255
   end
 
-  add_index "proxies", ["proxy"], name: "index_proxies_on_proxy", unique: true, using: :btree
+  add_index "proxies", ["proxy"], name: "index_proxies_on_proxy", unique: true
 
   create_table "proxy_domains", force: :cascade do |t|
     t.string   "proxy",       limit: 255
@@ -60,6 +60,11 @@ ActiveRecord::Schema.define(version: 20150527030533) do
     t.string   "country",     limit: 255
   end
 
-  add_index "proxy_domains", ["proxy"], name: "index_proxy_domains_on_proxy", unique: true, using: :btree
+  add_index "proxy_domains", ["proxy"], name: "index_proxy_domains_on_proxy", unique: true
+
+  create_table "whats", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
 end

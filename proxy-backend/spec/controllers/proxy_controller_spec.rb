@@ -24,7 +24,6 @@ RSpec.describe ProxyController, type: :controller do
 
   describe "POST #report_proxy_stats" do
     it "report domain proxy use num" do
-
       data = {
         "use_num" => {
         "www.wego.com" => {"succ"=>0, "total"=>13}
@@ -37,11 +36,5 @@ RSpec.describe ProxyController, type: :controller do
     end
 
   end
-
-
-  describe "GET #get_proxy" do
-
-  end
-
 
 end
