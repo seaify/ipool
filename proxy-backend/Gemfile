@@ -12,9 +12,7 @@ gem "excon"
 gem "json"
 gem 'annotate', '~> 2.6.6'
 gem 'rufus-scheduler'
-#gem 'rspec'
-#gem 'cucumber'
-#gem 'mysql2'
+gem 'figaro'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'

@@ -19,3 +19,7 @@ Gemfile.lock
 
 .pyc
 .rspec
+
+# Ignore application configuration
+/config/application.yml
+/config/database.yml

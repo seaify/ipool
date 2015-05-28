@@ -24,7 +24,7 @@ class ProxyDomainController < ApplicationController
     if record
       return render :json => {"code" => 0, "msg" => "ok", "proxy" => record.proxy}
     else
-      return render :json => {"code" => -1, "msg" => "no proxy for use"}
+      return render :json => {"code" => 0, "msg" => "ok", "proxy" => ENV['DEFAULT_PROXY']}
     end
 
   end

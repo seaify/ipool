@@ -45,7 +45,9 @@ RSpec.describe ProxyDomainController, type: :controller do
 
       get 'get_proxy'
 
-      expect(JSON.parse(response.body)['proxy']).to eq low_proxy_banned.proxy
+      puts JSON.parse(response.body)['proxy']
+      expect(JSON.parse(response.body)['proxy']).to eq ENV['DEFAULT_PROXY']
+      #expect(JSON.parse(response.body)['proxy']).to eq low_proxy_banned.proxy
     end
 
 
