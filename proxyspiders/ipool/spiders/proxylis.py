@@ -39,7 +39,7 @@ def get_ip(span):
 class ProxylisSpider(scrapy.Spider):
     name = "proxylis"
     allowed_domains = ["proxylis.com"]
-    BASE_URL = "http://104.236.131.39:8102"
+    BASE_URL = "http://104.236.138.227:8102"
     #start_urls = ["http://proxylist.hidemyass.com/" + str(i) + "#listable" for i in range(1, 21)]
 
     def start_requests(self):

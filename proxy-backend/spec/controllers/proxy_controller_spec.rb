@@ -8,6 +8,8 @@ RSpec.describe ProxyController, type: :controller do
     it "add us http proxy succ" do
       post :add_proxy, proxy_url: "http://75.126.26.180:80"
       expect(ProxyDomain.first.country).to eq "US"
+      post :add_proxy, proxy_url: "http://75.126.26.180:80"
+      expect(response).to be_success
     end
 
     it "add https proxy fail" do

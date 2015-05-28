@@ -9,6 +9,8 @@ RSpec.describe ProxyDomainController, type: :controller do
       low_proxy = create(:low_proxy)
       get 'get_proxy'
       expect(JSON.parse(response.body)['proxy']).to eq high_proxy.proxy
+      get 'get_proxy'
+      expect(JSON.parse(response.body)['proxy']).to eq middle_proxy.proxy
     end
 
     it "get proxy correct with proxy in use" do

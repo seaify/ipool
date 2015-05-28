@@ -21,7 +21,6 @@ class ProxyController < ApplicationController
             host, port, user, passwd = line.gsub('\n', '').split(':')
             proxy = "http://%s:%s@%s:%s" % [user, passwd, host, port]
             add_proxy_url(proxy)
-            #add proxy to redis & mysql
         end
         return render :json => {"code" => 0, "msg" => "error", "body" => "add proxy api Success"}, :callback => params[:callback]
     end
@@ -80,45 +79,23 @@ class ProxyController < ApplicationController
 
     end
 
-    def report_proxy_stats
-        puts params
-        use_num = params[:use_num]
-        proxy = params[:proxy]
-        use_num.each do |domain, value|
-            proxy_domain = '%s@%s' % [proxy, domain]
-            total = $redis.hincrby(proxy_domain, 'total', value['total'])
-            succ = $redis.hincrby(proxy_domain, 'succ', value['succ'])
-            puts value
-            $redis.zadd(domain, succ/total, proxy)
-        end
-        return render :json => {"code" => 0, "msg" => "thanks for your report"}
-    end
-
     def add_proxy_url(proxy_url)
         method = proxy_url.split(':')[0]
         ip = proxy_url.split(':')[1][2..-1]
-        puts ip
-
         domains = (ProxyDomain.all.pluck(:domain) + ['zillow.com']).uniq
-
         for domain in domains
             response = Excon.get('http://localhost:8105/json/' + ip)
             country = JSON.parse(response.body)['country_code']
             if country != 'US'
               next
             end
+            if ProxyDomain.exists?(:proxy => proxy_url)
+              next
+            end
             proxy_domain_data = {"country" => country, "proxy" => proxy_url, "domain" => domain, "proxy_type" => method}
             proxy_domain = ProxyDomain.new(proxy_domain_data).save()
             proxy_domain_url = proxy_url + '@' + domain
-            $redis.hmset(proxy_domain_url, 'banned', 0)
-            $redis.hmset(proxy_domain_url, 'total', 0)
-            $redis.hmset(proxy_domain_url, 'succ', 0)
-            #$redis.zadd(domain, {'total' => 0, 'succ' => 0})
-            $redis.zadd(domain, 0, proxy_url)
         end
-        proxy_data = {"proxy" => proxy_url, "proxy_type" => method}
-        proxy = Proxy.new(proxy_data).save()
-
     end
 
     def add_proxy

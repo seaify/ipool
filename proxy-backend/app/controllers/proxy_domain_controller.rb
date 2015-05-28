@@ -21,6 +21,8 @@ class ProxyDomainController < ApplicationController
     domain = get_domain(params[:url])
     record = ProxyDomain.where('in_use' =>false, 'banned' => false).order(succ_ratio: :desc).first
     if record
+      #temp todo
+      #ProxyDomain.where('proxy' => record.proxy).first.update(:in_use => true)
       return render :json => {"code" => 0, "msg" => "ok", "proxy" => record.proxy}
     else
       return render :json => {"code" => 0, "msg" => "ok", "proxy" => ENV['DEFAULT_PROXY']}

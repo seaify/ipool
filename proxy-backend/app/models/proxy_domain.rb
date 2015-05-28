@@ -20,6 +20,7 @@
 class ProxyDomain < ActiveRecord::Base
   before_save :update_ratio
   def update_ratio
+    self.succ = [self.succ, 0].min
     if self.total == 0
       self.succ_ratio = 0.0
     else
