@@ -12,7 +12,6 @@ class ProxyDomainController < ApplicationController
   end
 
   def get_host_port(url)
-    puts url
     uri = URI(url)
     puts uri
     return [uri.host, uri.port]
@@ -28,6 +27,19 @@ class ProxyDomainController < ApplicationController
     end
 
   end
+
+  def report_proxy_stats
+        use_num = params[:use_num]
+        proxy = params[:proxy]
+        use_num.each do |domain, value|
+            proxy_domain = '%s@%s' % [proxy, domain]
+            result = ProxyDomain.where(proxy: proxy).first
+            succ = result.succ + value['succ'].to_i
+            total = result.total + value['total'].to_i
+            ProxyDomain.where(proxy: proxy).first.update(:succ => succ, :total => total)
+        end
+        return render :json => {"code" => 0, "msg" => "thanks for your report"}
+    end
 
 
 

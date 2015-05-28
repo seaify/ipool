@@ -18,4 +18,12 @@
 #
 
 class ProxyDomain < ActiveRecord::Base
+  before_save :update_ratio
+  def update_ratio
+    if self.total == 0
+      self.succ_ratio = 0.0
+    else
+      self.succ_ratio = self.succ.to_f / self.total.to_f
+    end
+  end
 end

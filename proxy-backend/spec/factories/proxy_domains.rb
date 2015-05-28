@@ -18,39 +18,33 @@
 #
 
 FactoryGirl.define do
-  factory :high_proxy , class: ProxyDomain do
-    proxy "http://54.191.128.38:3128/"
+  factory :proxy_domain , class: ProxyDomain do
     proxy_type "http"
-    succ_ratio 0.9
     domain "zillow.com"
+
+    trait :banned do
+      banned true
+    end
+
+    trait :in_use do
+      in_use true
+    end
+
+    factory :high_proxy , class: ProxyDomain do
+      proxy "http://54.191.128.38:3128/"
+      succ_ratio 0.9
+    end
+
+    factory :middle_proxy , class: ProxyDomain do
+      proxy "http://173.82.2.234:8089/"
+      succ_ratio 0.5
+    end
+
+    factory :low_proxy , class: ProxyDomain do
+      proxy "http://12.201.109.22:8080/"
+      succ_ratio 0.3
+    end
+
   end
-
-  factory :middle_proxy , class: ProxyDomain do
-    proxy "http://173.82.2.234:8089/"
-    proxy_type "http"
-    succ_ratio 0.5
-    domain "zillow.com"
-  end
-
-  factory :low_proxy , class: ProxyDomain do
-    proxy "http://12.201.109.22:8080/"
-    proxy_type "http"
-    succ_ratio 0.3
-    domain "zillow.com"
-  end
-
-  trait :banned do
-    banned true
-  end
-
-
-  trait :in_use do
-    in_use true
-  end
-
-  factory :high_proxy_in_use, traits: [:in_use]
-  factory :middle_proxy_in_use, traits: [:in_use]
-  factory :low_proxy_in_use, traits: [:in_use]
-
 
 end
