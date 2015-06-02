@@ -1,4 +1,9 @@
 class ProxyDomainController < ApplicationController
+  after_action :print_result
+
+  def print_result
+  end
+
   def proxy_domains
     @proxy_domains = ProxyDomain.all
     respond_to do |format|
