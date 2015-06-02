@@ -12,3 +12,8 @@
 #
 
 DEFAULT_PROXY:  "http://127.0.0.1:9876"
+RECEIVE_EMAIL:  "dilinfefeo.lfeife@gmail.com"
+#RECEIVE_EMAIL:  ["838554673@qq.com", "dilin.life@gmail.com"]
+
+SEND_EMAIL:  "norel11e2py.test@gmail.com"
+SEND_EMAIL_PASSWD:  "lifeoosm12345"
