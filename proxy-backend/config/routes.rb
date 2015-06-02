@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   get 'proxys' => 'proxy#proxys'
   post 'add_proxy' => 'proxy#add_proxy'
+  get 'add_proxy' => 'proxy#add_proxy'
   #get 'get_proxy' => 'proxy#get_proxy'
   get 'get_proxy' => 'proxy_domain#get_proxy'
   post "report_proxy_stats" => "proxy_domain#report_proxy_stats"
@@ -17,6 +18,7 @@ Rails.application.routes.draw do
   get 'ban_selected_proxy' => 'proxy#ban_selected_proxy'
   get 'delete_selected_proxy' => 'proxy#delete_selected_proxy'
   get 'ban_all' => 'proxy#ban_all'
+  get 'delete_all' => 'proxy#delete_all'
   get 'add_proxy_api' => 'proxy#add_proxy_api'
 
   # The priority is based upon order of creation: first created -> highest priority.

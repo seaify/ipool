@@ -45,6 +45,13 @@ class ProxyController < ApplicationController
         return render :json => {"code" => 0, "msg" => "delete selected proxy done"}, :callback => params[:callback]
     end
 
+    def delete_all
+        ProxyDomain.all.delete_all
+        Proxy.all.delete_all
+        return render :json => {"code" => 0, "msg" => "delete all proxy done"}, :callback => params[:callback]
+    end
+
+
     def ban_selected_proxy
         ProxyDomain.where(:id => params[:ids]).update_all(:banned => 1, :banned_time => Time.now.strftime("%Y-%m-%d %H:%M:%S"))
         return render :json => {"code" => 0, "msg" => "set selected proxy banned done"}, :callback => params[:callback]
@@ -54,6 +61,7 @@ class ProxyController < ApplicationController
         ProxyDomain.update_all(:banned => 0, :banned_time => nil)
         return render :json => {"code" => 0, "msg" => "set all proxy available done"}, :callback => params[:callback]
     end
+
 
     def ban_proxy
         ProxyDomain.where(:id => params[:ids]).update_all(:banned => 1, :banned_time => Time.now.strftime("%Y-%m-%d %H:%M:%S"))
@@ -102,9 +110,11 @@ class ProxyController < ApplicationController
         proxy_url = params[:proxy_url]
         if proxy_url.start_with?("http:")
           add_proxy_url(params[:proxy_url])
-          render :json => {"msg" => "ok"} # don't do msg.to_json
+          render :json => {"msg" => "ok"}, :callback => params[:callback]
+ # don't do msg.to_json
         else
-          render :json => {"msg" => "only accept http proxy"} # don't do msg.to_json
+          render :json => {"msg" => "only accept http proxy"}, :callback => params[:callback]
+ # don't do msg.to_json
         end
     end
 

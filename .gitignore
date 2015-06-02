@@ -5,3 +5,5 @@
 .keep
 flask-backend-api/
 dump.rdb
+proxy-backend/releases/*
+proxy-backend/vendor/*

@@ -3,7 +3,9 @@ const mui = require('material-ui');
 const reactbootstrap = require('react-bootstrap');
 const Reactable = require('./reactable.jsx');
 const jquery = require('jquery');
-const BASE_URL = "http://104.236.138.227:8102";
+const CONSTANTS = require('../constants/AppConstants');
+
+console.log(CONSTANTS.SERVER_URL);
 //const _ = require('lodash');
 
 //var Table = Reactable.Table;
@@ -45,6 +47,39 @@ const LoginModal = React.createClass({
   }
 });
 
+const ProxyInputModal = React.createClass({
+
+  render: function() {
+    return (
+      <Modal ref="hello" {...this.props} bsStyle='primary' title='导入代理' animation={false}>
+        <div ref="fuck" className='modal-body'>
+         <Input ref="proxy" type='text' label='代理url' />
+        </div>
+        <div className='modal-footer'>
+          <Button onClick={this.addProxy} >提交</Button>
+          <Button onClick={this.props.onRequestHide}>关闭</Button>
+        </div>
+      </Modal>
+    );
+  },
+
+
+  addProxy: function(){
+    var proxy= this.refs.proxy.getValue();
+    console.log(proxy);
+    jquery.ajax({
+      url: CONSTANTS.SERVER_URL + "/add_proxy",
+      dataType: "jsonp",
+      data: {"proxy_url": proxy},
+      success: function(data){
+        console.log(data);
+
+      }});
+
+  },
+});
+
+
 
 const UrlInputModal = React.createClass({
 
@@ -67,7 +102,7 @@ const UrlInputModal = React.createClass({
     var proxy_api = this.refs.proxyApi.getValue();
     console.log(proxy_api);
     jquery.ajax({
-      url: "http://localhost:3000/add_proxy_api",
+      url: CONSTANTS.SERVER_URL + "/add_proxy",
       dataType: "jsonp",
       data: {"proxyApi": proxy_api},
       success: function(data){
@@ -129,7 +164,7 @@ let App = React.createClass({
     //self.setState({'proxies': proxies});
     //self.setState({'proxies_domain': proxies_domain});
     jquery.ajax({
-      url: BASE_URL + "/proxys.json",
+      url: CONSTANTS.SERVER_URL + "/proxys.json",
       dataType: "jsonp",
       success: function(data){
         console.log("proxys.json succ");
@@ -144,7 +179,7 @@ let App = React.createClass({
       }});
 
     jquery.ajax({
-      url: BASE_URL + "/proxy_domains.json",
+      url: CONSTANTS.SERVER_URL + "/proxy_domains.json",
       dataType: "jsonp",
       success: function(data){
         console.log(self);
@@ -177,13 +212,24 @@ let App = React.createClass({
 
   allowAllProxy: function(){
      jquery.ajax({
-      url: BASE_URL + "/allow_all",
+      url: CONSTANTS.SERVER_URL + "/allow_all",
       dataType: "jsonp",
       success: function(data){
         console.log(data);
       }});
      //need reload data
   },
+
+  deleteAllProxy: function(){
+     jquery.ajax({
+      url: CONSTANTS.SERVER_URL + "/delete_all",
+      dataType: "jsonp",
+      success: function(data){
+        console.log(data);
+      }});
+  },
+
+
 
   deleteSelectedProxy: function(){
     console.log(this.refs.proxyTable);
@@ -199,7 +245,7 @@ let App = React.createClass({
     console.log(proxy_ids);
 
      jquery.ajax({
-      url: BASE_URL + "/delete_selected_proxy",
+      url: CONSTANTS.SERVER_URL + "/delete_selected_proxy",
       dataType: "jsonp",
       data: {"ids": proxy_ids},
       success: function(data){
@@ -221,7 +267,7 @@ let App = React.createClass({
     console.log(proxy_ids);
 
      jquery.ajax({
-      url: BASE_URL + "/allow_selected_proxy",
+      url: CONSTANTS.SERVER_URL + "/allow_selected_proxy",
       dataType: "jsonp",
       data: {"ids": proxy_ids},
       success: function(data){
@@ -244,7 +290,7 @@ let App = React.createClass({
     console.log(proxy_ids);
 
      jquery.ajax({
-      url: BASE_URL + "/ban_selected_proxy",
+      url: CONSTANTS.SERVER_URL + "/ban_selected_proxy",
       dataType: "jsonp",
       data: {"ids": proxy_ids},
       success: function(data){
@@ -256,7 +302,7 @@ let App = React.createClass({
 
   banAllProxy: function(){
      jquery.ajax({
-      url: BASE_URL + "/ban_all",
+      url: CONSTANTS.SERVER_URL + "/ban_all",
       dataType: "jsonp",
       success: function(data){
         console.log(data);
@@ -283,9 +329,15 @@ let App = React.createClass({
             </MenuItem>
             <MenuItem eventKey='2'>
               <ModalTrigger modal={<UrlInputModal />}>
+                <Button >导入代理api url(请求该url，可以获取多个代理)</Button>
+              </ModalTrigger>
+            </MenuItem>
+            <MenuItem eventKey='3'>
+              <ModalTrigger modal={<ProxyInputModal />}>
                 <Button >导入代理url</Button>
               </ModalTrigger>
             </MenuItem>
+
           </DropdownButton>
           <NavItem>
             <ModalTrigger modal={<LoginModal />}>
@@ -306,6 +358,7 @@ let App = React.createClass({
           <Button  onClick={this.banSelectedProxy}>禁用</Button>
           <Button  onClick={this.banAllProxy}>全部禁用</Button>
           <Button  onClick={this.deleteSelectedProxy}>删除</Button>
+          <Button  onClick={this.deleteAllProxy}>全部删除</Button>
         </ButtonToolbar>
       </TabPane>
       <TabPane eventKey={2} tab='代理禁用表'>
