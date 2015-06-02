@@ -25,6 +25,7 @@ class ProxyDomainController < ApplicationController
       #ProxyDomain.where('proxy' => record.proxy).first.update(:in_use => true)
       return render :json => {"code" => 0, "msg" => "ok", "proxy" => record.proxy}
     else
+      UserMailer.noproxy_email().deliver_now
       return render :json => {"code" => 0, "msg" => "ok", "proxy" => ENV['DEFAULT_PROXY']}
     end
 
