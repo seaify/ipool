@@ -94,6 +94,8 @@ class ProxyController < ApplicationController
         for domain in domains
             response = Excon.get('http://localhost:8105/json/' + ip)
             country = JSON.parse(response.body)['country_code']
+            puts "country is "
+            puts country
             if country != 'US'
               next
             end
@@ -101,7 +103,9 @@ class ProxyController < ApplicationController
               next
             end
             proxy_domain_data = {"country" => country, "proxy" => proxy_url, "domain" => domain, "proxy_type" => method}
+            puts proxy_domain_data.as_json
             proxy_domain = ProxyDomain.new(proxy_domain_data).save()
+            puts ProxyDomain.all.as_json
             proxy_domain_url = proxy_url + '@' + domain
         end
     end

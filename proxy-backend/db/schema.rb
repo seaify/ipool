@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150528013108) do
+ActiveRecord::Schema.define(version: 20150628011705) do
 
   create_table "entries", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 20150528013108) do
     t.datetime "updated_at",                               null: false
     t.boolean  "banned",      limit: 1,   default: false
     t.datetime "banned_time"
-    t.boolean  "in_use",      limit: 1,   default: false
+    t.integer  "in_use",      limit: 4,   default: 0
     t.string   "country",     limit: 255
   end
 

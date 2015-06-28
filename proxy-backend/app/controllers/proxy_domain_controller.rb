@@ -24,10 +24,11 @@ class ProxyDomainController < ApplicationController
 
   def get_proxy
     domain = get_domain(params[:url])
-    record = ProxyDomain.where('in_use' =>false, 'banned' => false).order(succ_ratio: :desc).first
+    record = ProxyDomain.where('banned' => false).order('in_use').order(succ_ratio: :desc).first
+    puts record.as_json
     if record
       #temp todo
-      #ProxyDomain.where('proxy' => record.proxy).first.update(:in_use => true)
+      ProxyDomain.find_by_proxy(record.proxy).increment!(:in_use)
       return render :json => {"code" => 0, "msg" => "ok", "proxy" => record.proxy}
     else
       UserMailer.noproxy_email().deliver_now
