@@ -21,8 +21,8 @@ Gemfile.lock
 .rspec
 
 # Ignore application configuration
-/config/application.yml
-/config/database.yml
+#/config/application.yml
+#/config/database.yml
 public/
 scm/
 last_version

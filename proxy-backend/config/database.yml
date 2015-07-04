@@ -1,0 +1,28 @@
+production:
+  adapter: mysql
+  encoding: utf8
+  reconnect: false
+  database: ipool-production
+  pool: 5
+  username: root
+  password: lsm123
+  host: localhost
+
+
+development:
+  adapter: mysql
+  encoding: utf8
+  reconnect: false
+  database: ipool
+  pool: 5
+  username: root
+  password: lsm123
+  host: localhost
+
+test:
+  adapter: sqlite3
+  database: db/test.sqlite3
+  pool: 5
+  timeout: 5000
+
+
